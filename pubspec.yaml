@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: 
+  flutter_web_auth_2: 
 
   cupertino_icons: ^1.0.2
 

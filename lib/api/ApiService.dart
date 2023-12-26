@@ -50,6 +50,10 @@ class ApiService {
     return true;
   }
 
+  Future<UserBasicData?> getUserBasicData() async {
+      return await _client.get('/profile/basicdata', cast: UserBasicData.fromJson);
+  }
+
   Future<AccountSummaryResponse> getAccountSummary() async {
     return await _client.get('/profile/summary',
         cast: AccountSummaryResponse.fromJson, refreshAuthOnSuccess: true);

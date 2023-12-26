@@ -1,6 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/util_views/ErrorDialog.dart';
+import 'package:grzesbank_app/utils/Constants.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdPassChangeView.dart';
 import 'package:grzesbank_app/widgets/authd_views/CcView.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
@@ -164,6 +168,33 @@ class LoggedoutDrawer extends StatelessWidget {
               ),
             ),
           ),
+          kIsWeb
+              ? ListTile(
+                  title: Text("Zaloguj się z Google"),
+                  leading: Icon(Icons.g_mobiledata),
+                  onTap: () async {
+                    final result = await FlutterWebAuth2.authenticate(
+                        url: Constants.apiOauthEndpoint,
+                        //todo: http here!
+                        callbackUrlScheme: "gb24");
+                    try {
+                      if (Uri.parse(result).queryParameters['result'] !=
+                          "true") {
+                        throw Error();
+                      }
+                      var user = await ApiService.instance.getUserBasicData();
+                      Provider.of<AppState>(
+                              NavigationContext.mainNavKey.currentContext!,
+                              listen: false)
+                          .setStateLogin(user!);
+                    } catch (e) {
+                      ErrorDialog.show(
+                          NavigationContext.mainNavKey.currentContext!,
+                          "Nieudane logowanie OAuth2. Zweryfikuj czy posiadasz konto w banku.");
+                    }
+                  },
+                )
+              : Container(),
         ],
       ),
     );
