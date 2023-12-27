@@ -36,7 +36,7 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     final AppState appState = Provider.of<AppState>(context, listen: false);
     return AppScaffold(
-      title: Text("Historia"),
+      title: Text(Tprovider.get('drawer_history')),
       body: Center(
           child: FutureBuilder(
         future: _future,

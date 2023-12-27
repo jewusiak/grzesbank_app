@@ -59,6 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   labelText: Tprovider.get('firstname')),
                               validator: (value) =>
                                   RegexMatchers.matchPlAlpha(value),
+                              
                             ),
                           ),
                           SizedBox(

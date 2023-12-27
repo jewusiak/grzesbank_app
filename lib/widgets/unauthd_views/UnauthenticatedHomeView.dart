@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 
 class UnauthenticatedHomeView extends StatelessWidget {
   const UnauthenticatedHomeView({super.key});
@@ -7,8 +8,8 @@ class UnauthenticatedHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "--- UNAUTH ---",
-        style: TextStyle(color: Colors.red),
+        "${Tprovider.get('welcome_to')} Grzesbank24",
+        style: TextStyle(fontSize: 36),
       ),
     );
   }

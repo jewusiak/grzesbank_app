@@ -76,7 +76,12 @@
       "registration_in": "Register in",
       "reg_succ_alert": "Registration successful. You can now log in to your account at Grzesbank24.",
       "dark_mode" : "Dark mode",
-      "light_mode" : "Light mode"
+      "light_mode" : "Light mode",
+      "welcome_to" : "Welcome to",
+      "bank_locations_drawer": "Bank branches",
+      "branch_no": "Branch no.",
+      "your_location": "Your location",
+      "permission_denied_err": "Location permission was denied for this app. Please check app settings."
     }
   },
   {
@@ -156,7 +161,12 @@
       "registration_in": "Zarejestruj się w",
       "reg_succ_alert": "Rejestracja udana, już możesz zalogować się na konto w Grzesbank24.",
       "dark_mode" : "Tryb ciemny",
-      "light_mode" : "tryb jasny"
+      "light_mode" : "Tryb jasny",
+      "welcome_to" : "Witamy w",
+      "bank_locations_drawer": "Oddziały banku",
+      "branch_no": "Oddział nr",
+      "your_location": "Twoja lokalizacja",
+      "permission_denied_err": "Uprawnienie do lokalizacji nie zostało przyznane. Sprawdź ustawienia aplikacji."
     }
   }
 ]

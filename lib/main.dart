@@ -6,7 +6,7 @@ import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdHomeView.dart';
-import 'package:grzesbank_app/widgets/nav/Drawers.dart';
+import 'package:grzesbank_app/widgets/nav/DrawerProvider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 import 'package:grzesbank_app/widgets/unauthd_views/UnauthenticatedHomeView.dart';
 import 'package:provider/provider.dart';

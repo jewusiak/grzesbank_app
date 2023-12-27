@@ -24,17 +24,31 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
             return CircularProgressIndicator();
           }
           var summary = snapshot.data!;
-          return SingleChildScrollView(
+          return RefreshIndicator(
+            onRefresh: () async { 
+              setState(() {
+                future = Future(() async => await ApiService.instance.getAccountSummary());
+              });
+            },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
               width: 500,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    "${Tprovider.get('welcome')}, ${summary.name ?? "n/a"}",
-                    style: TextStyle(fontSize: 36),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      Text(
+                        "${Tprovider.get('welcome')}, ",
+                        style: TextStyle(fontSize: 36),
+                      ),Text(
+                        "${summary.name ?? "n/a"}",
+                        style: TextStyle(fontSize: 36),
+                      ),
+                    ],
                   ),
+                  SizedBox(height: 15,),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -42,20 +56,24 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
                         "${Tprovider.get('summary_for_acc')} ${summary.formattedAccountNumber}",
                         style: TextStyle(fontSize: 12),
                       ),
-                      IconButton(
-                          onPressed: () async {
-                            if (summary.accountNumber == null) return;
-                            await Clipboard.setData(
-                                ClipboardData(text: summary.accountNumber!));
-                            await ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content:
-                                        Text(Tprovider.get('copied_accn'))));
-                          },
-                          icon: Icon(
-                            Icons.copy,
-                            size: 15,
-                          ))
+                      SizedBox(height: 25,
+                        width: 25,
+                        child: IconButton(
+                          iconSize: 15,
+                          padding: EdgeInsets.all(5),
+                            onPressed: () async {
+                              if (summary.accountNumber == null) return;
+                              await Clipboard.setData(
+                                  ClipboardData(text: summary.accountNumber!));
+                              await ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(Tprovider.get('copied_accn'))));
+                            },
+                            icon: Icon(
+                              Icons.copy,
+                            )),
+                      )
                     ],
                   ),
                   SizedBox(

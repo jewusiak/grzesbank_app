@@ -1,5 +1,5 @@
 name: grzesbank_app
-description: Grzesbank app
+description: Grzesbank24
 publish_to: 'none'
 
 
@@ -16,15 +16,25 @@ dependencies:
     sdk: flutter
   google_fonts: 
   flutter_web_auth_2: 
-
+  google_maps_flutter: 
+  location:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
 
 
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/gb_logo.png"
+  min_sdk_android: 20 # android min sdk min:16, default 21
+  web:
+    generate: true
 
 
 flutter:
@@ -41,6 +51,8 @@ flutter:
   assets:
     - assets/card_template.jpeg
     - assets/translations.json
+    - assets/gb_logo.png
+    - assets/loc_pin.png
   fonts:
     - family: OCRA
       fonts:
