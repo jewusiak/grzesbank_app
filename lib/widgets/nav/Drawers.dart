@@ -4,7 +4,10 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
+import 'package:grzesbank_app/util_views/LangTile.dart';
+import 'package:grzesbank_app/util_views/ThemeTile.dart';
 import 'package:grzesbank_app/utils/Constants.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdPassChangeView.dart';
 import 'package:grzesbank_app/widgets/authd_views/CcView.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
@@ -56,7 +59,7 @@ class LoggedinDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-              title: Text("Historia"),
+              title: Text(Tprovider.get('drawer_history')),
               leading: Icon(Icons.history),
               onTap: () async {
                 Navigator.pop(context);
@@ -67,7 +70,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Wyślij przelew"),
+              title: Text(Tprovider.get('drawer_send_trans')),
               leading: Icon(Icons.send),
               onTap: () async {
                 Navigator.pop(context);
@@ -78,7 +81,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Twoje karty"),
+              title: Text(Tprovider.get('drawer_cards')),
               leading: Icon(Icons.credit_card),
               onTap: () async {
                 Navigator.pop(context);
@@ -90,7 +93,7 @@ class LoggedinDrawer extends StatelessWidget {
               }),
           Divider(),
           ListTile(
-              title: Text("Profil"),
+              title: Text(Tprovider.get('drawer_profile')),
               leading: Icon(Icons.person),
               onTap: () async {
                 Navigator.pop(context);
@@ -101,7 +104,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Zmień hasło"),
+              title: Text(Tprovider.get('drawer_pass')),
               leading: Icon(Icons.password),
               onTap: () async {
                 Navigator.pop(context);
@@ -113,7 +116,7 @@ class LoggedinDrawer extends StatelessWidget {
               }),
           Divider(),
           ListTile(
-            title: Text("Wyloguj się"),
+            title: Text(Tprovider.get('drawer_logout')),
             leading: Icon(Icons.logout),
             onTap: () async {
               try {
@@ -122,6 +125,9 @@ class LoggedinDrawer extends StatelessWidget {
               Provider.of<AppState>(context, listen: false).setStatelogout();
             },
           ),
+          Divider(),
+          LangTile(),
+          ThemeTile()
         ],
       ),
     );
@@ -141,13 +147,13 @@ class LoggedoutDrawer extends StatelessWidget {
           DrawerHeader(
             child: Center(
               child: Column(
-                children: [Text("Zaloguj się"), Text("do Grzesbank24")],
+                children: [Text(Tprovider.get('drawer_login')), Text("${Tprovider.get('to')} Grzesbank24")],
                 mainAxisSize: MainAxisSize.min,
               ),
             ),
           ),
           ListTile(
-            title: Text("Log in"),
+            title: Text(Tprovider.get('drawer_login')),
             leading: Icon(Icons.login),
             onTap: () async {
               Navigator.pop(context);
@@ -159,7 +165,7 @@ class LoggedoutDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text("Zarejestruj się"),
+            title: Text(Tprovider.get('drawer_register')),
             leading: Icon(Icons.edit),
             onTap: () async => await Navigator.push(
               context,
@@ -170,11 +176,11 @@ class LoggedoutDrawer extends StatelessWidget {
           ),
           kIsWeb
               ? ListTile(
-                  title: Text("Zaloguj się z Google"),
+                  title: Text(Tprovider.get('drawer_google')),
                   leading: Icon(Icons.g_mobiledata),
                   onTap: () async {
                     final result = await FlutterWebAuth2.authenticate(
-                        url: Constants.apiOauthEndpoint,
+                        url: Uri(host: Constants.apiHost, port: Constants.apiPort, path: Constants.apiOauthEndpoint, scheme: Constants.apiProtocol).toString(),
                         //todo: http here!
                         callbackUrlScheme: "gb24");
                     try {
@@ -190,11 +196,14 @@ class LoggedoutDrawer extends StatelessWidget {
                     } catch (e) {
                       ErrorDialog.show(
                           NavigationContext.mainNavKey.currentContext!,
-                          "Nieudane logowanie OAuth2. Zweryfikuj czy posiadasz konto w banku.");
+                          Tprovider.get('oauth_err'));
                     }
                   },
                 )
               : Container(),
+          Divider(),
+          LangTile(),
+          ThemeTile()
         ],
       ),
     );

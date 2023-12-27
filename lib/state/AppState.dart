@@ -8,10 +8,28 @@ import 'package:provider/provider.dart';
 class AppState extends ChangeNotifier {
   bool _isAuthenticated = false;
   ValueNotifier<int?> _sessionValidity = ValueNotifier(null);
-  //Use of value notifier
+  String _lang = "en_US";
+  static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
 
+  
+  static void toggleThemeMode() {
+    themeMode.value = themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    themeMode.notifyListeners();
+  }
+  
   set isAuthenticated(bool value) {
     _isAuthenticated = value;
+    notifyListeners();
+  }
+
+  String get lang => _lang;
+  
+  void toggleLang() {
+    lang = lang == 'pl_PL' ? 'en_US' : 'pl_PL';
+  }
+
+  set lang(String value) {
+    _lang = value;
     notifyListeners();
   }
 
@@ -60,7 +78,8 @@ class AppState extends ChangeNotifier {
 
   UserBasicData? get userBasicData => _userBasicData;
   
-  static AppState get instance => Provider.of(NavigationContext.mainNavKey.currentContext!, listen: false); 
+  static AppState get instance => Provider.of(NavigationContext.mainNavKey.currentContext!, listen: false);
+
 }
 
 class NavigationContext {

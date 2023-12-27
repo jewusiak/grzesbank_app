@@ -7,6 +7,7 @@ import 'package:grzesbank_app/util_views/SuccessDialog.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
 import 'package:grzesbank_app/utils/Formatters.dart';
 import 'package:grzesbank_app/utils/RegexMatchers.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 
 class SendTransferView extends StatefulWidget {
@@ -31,10 +32,10 @@ class _SendTransferViewState extends State<SendTransferView> {
   Widget build(BuildContext context) {
     final appState = AppState.instance;
     String _buttonText = _state == SendTransferState.CONFIRMATION
-        ? "Potwierdzasz? Kliknij ponownie"
-        : "Wyślij przelew";
+        ? Tprovider.get('send_transfer2')
+        : Tprovider.get('send_transfer');
     return AppScaffold(
-      title: Text("Wyślij przelew"),
+      title: Text(Tprovider.get('send_transfer')),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -45,20 +46,18 @@ class _SendTransferViewState extends State<SendTransferView> {
               child: Column(
                 children: [
                   Text(
-                    "Przelew natychmiastowy",
+                    Tprovider.get('quick_transfer'),
                     style: TextStyle(fontSize: 36),
                   ),
                   Text(
-                      "z rachunku nr ${appState.userBasicData!.formattedAccountNumber}"),
+                      "${Tprovider.get('from_acc_no')} ${appState.userBasicData!.formattedAccountNumber}"),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
                     decoration:
-                        InputDecoration(labelText: "Imię i nazwisko odbiorcy"),
-                    validator: (value) => RegexMatchers.matchPlTextbox(value,
-                        onFailure: "Pole wypełnione niepoprawnie",
-                        onEmpty: "Pole nie może być puste"),
+                        InputDecoration(labelText: Tprovider.get('recipient_name_surname')),
+                    validator: (value) => RegexMatchers.matchPlTextbox(value),
                     controller: _name,
                     enabled: _state == SendTransferState.ENTRY,
                   ),
@@ -66,10 +65,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                     height: 15,
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: "Adres odbiorcy"),
-                    validator: (value) => RegexMatchers.matchPlTextbox(value,
-                        onFailure: "Pole wypełnione niepoprawnie",
-                        onEmpty: "Pole nie może być puste"),
+                    decoration: InputDecoration(labelText: Tprovider.get('recipient_address')),
+                    validator: (value) => RegexMatchers.matchPlTextbox(value),
                     controller: _address,
                     enabled: _state == SendTransferState.ENTRY,
                   ),
@@ -78,10 +75,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                   ),
                   TextFormField(
                     decoration:
-                        InputDecoration(labelText: "Nr rachunku odbiorcy"),
-                    validator: (value) => RegexMatchers.matchAccNumber(value,
-                        onFailure: "Pole wypełnione niepoprawnie",
-                        onEmpty: "Pole nie może być puste"),
+                        InputDecoration(labelText: Tprovider.get('recipient_accn')),
+                    validator: (value) => RegexMatchers.matchAccNumber(value),
                     inputFormatters: [
                       AccountNumberFormatter(),
                       LengthLimitingTextInputFormatter(32)
@@ -98,11 +93,9 @@ class _SendTransferViewState extends State<SendTransferView> {
                       Flexible(
                         child: TextFormField(
                           decoration:
-                              InputDecoration(labelText: "Tytuł przelewu"),
+                              InputDecoration(labelText: Tprovider.get('trans_title')),
                           validator: (value) => RegexMatchers.matchPlTextbox(
-                              value,
-                              onFailure: "Pole wypełnione niepoprawnie",
-                              onEmpty: "Pole nie może być puste"),
+                              value),
                           controller: _title,
                           enabled: _state == SendTransferState.ENTRY,
                         ),
@@ -113,11 +106,9 @@ class _SendTransferViewState extends State<SendTransferView> {
                       ),
                       Flexible(
                         child: TextFormField(
-                          decoration: InputDecoration(labelText: "Kwota"),
+                          decoration: InputDecoration(labelText: Tprovider.get('amount')),
                           validator: (value) => RegexMatchers.matchCcyAmount(
                             value,
-                            onFailure: "Pole wypełnione niepoprawnie",
-                            onEmpty: "Pole nie może być puste",
                             trim: true,
                           ),
                           controller: _amount,
@@ -153,7 +144,7 @@ class _SendTransferViewState extends State<SendTransferView> {
                         var res = await ApiService.instance.sendTransfer(_name.text, _address.text, _accn.text, _amount.text, _title.text);
                         if(res == null) {
                           Navigator.pop(context);
-                          SuccessDialog.show(context, "Przelew wysłany pomyślnie.", onOk: () async {
+                          SuccessDialog.show(context, Tprovider.get('succ_trans'), onOk: () async {
                             Navigator.pop(context);
                             Navigator.pop(context, true);
                           });

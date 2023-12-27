@@ -43,5 +43,5 @@ class AccountSummaryResponse {
     return data;
   }
 
-  String get formattedAccountNumber => Formatters.formatAccountNumber(accountNumber);
+  String get formattedAccountNumber => Formatters.formatAccountNumber(accountNumber, assertLength: false);
 }

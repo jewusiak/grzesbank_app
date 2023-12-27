@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/api/responses/dtos/TransactionDto.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 import 'package:provider/provider.dart';
 
@@ -55,11 +56,11 @@ class _HistoryViewState extends State<HistoryView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Historia",
+                    Tprovider.get('drawer_history'),
                     style: TextStyle(fontSize: 36),
                   ),
                   Text(
-                    "Podsumowanie dla konta o nr ${appState.userBasicData?.formattedAccountNumber??"n/a"}",
+                    "${Tprovider.get('summary_for_acc')} ${appState.userBasicData?.formattedAccountNumber??"n/a"}",
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(
@@ -151,7 +152,7 @@ class TransactionCard extends StatelessWidget {
             color: isReceived ? Colors.green.shade800 : Colors.red.shade800),
         title: Text("${item.title ?? ""}"),
         subtitle: Text(
-            "${isReceived ? "od" : "dla"} ${item.contraSideName ?? "n/a"}\n"
+            "${isReceived ? Tprovider.get('from') : Tprovider.get('to')} ${item.contraSideName ?? "n/a"}\n"
                 "${item.formattedDate}"),
         trailing: Text(
           "${item.formattedAmount} PLN",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
 import 'package:flutter/services.dart';
 
@@ -31,20 +32,20 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Witaj, ${summary.name ?? "n/a"}",
+                    "${Tprovider.get('welcome')}, ${summary.name ?? "n/a"}",
                     style: TextStyle(fontSize: 36),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: [ 
                       Text(
-                        "Podsumowanie dla konta o nr ${summary.formattedAccountNumber}",
+                        "${Tprovider.get('summary_for_acc')} ${summary.formattedAccountNumber}",
                         style: TextStyle(fontSize: 12),
                       ),
                       IconButton(onPressed: () async {
                         if(summary.accountNumber == null) return;
                         await Clipboard.setData(ClipboardData(text: summary.accountNumber!));
-                        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Skopiowano nr rachunku do schowka")));
+                        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Tprovider.get('copied_accn'))));
                       }, icon: Icon(Icons.copy, size: 15,))
                     ],
                   ),
@@ -68,7 +69,7 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () async => Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryView(),)),
-                      child: Text("Więcej historii >>"),
+                      child: Text("${Tprovider.get('more_history')} >>"),
                     ),
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:provider/provider.dart';
 
 
@@ -34,7 +35,7 @@ class AppScaffold extends StatelessWidget {
       ),
       TimeWidget(),
       SizedBox(
-        width: 40,
+        width: 30,
       )
     ]
         : [];
@@ -52,7 +53,7 @@ class TimeWidget extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: appState.sessionValidityValueNotifier,
       builder: (context, value, child) => Text(
-        "Czas do końca sesji: ${(value! / 60).floor()}:${(value% 60).toString().padLeft(2, '0')}",
+        "${Tprovider.get('session_time')}: ${(value! / 60).floor()}:${(value% 60).toString().padLeft(2, '0')}",
         style: TextStyle(fontWeight: FontWeight.w600),
       ),
     );

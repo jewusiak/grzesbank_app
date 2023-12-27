@@ -5,6 +5,7 @@ import 'package:grzesbank_app/util_views/ErrorDialog.dart';
 import 'package:grzesbank_app/util_views/SuccessDialog.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
 import 'package:grzesbank_app/utils/RegexMatchers.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 
 class AuthdPassChangeView extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
     final _pass2 = TextEditingController(); 
 
     return AppScaffold(
-      title: Text("Wyślij przelew"),
+      title: Text(Tprovider.get('send_transfer')),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -34,30 +35,30 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
               child: Column(
                 children: [
                   Text(
-                    "Zmiana hasła",
+                    Tprovider.get('drawer_pass'),
                     style: TextStyle(fontSize: 36),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: "Nowe hasło"),
+                    decoration: InputDecoration(labelText: Tprovider.get('new_pass')),
                     obscureText: true,
                     validator: (value) => RegexMatchers.matchPassword(
                         value,
-                        "Pole wypełnione niepoprawnie",
-                        "Hasło musi mieć min. 8 znaków",
+                        Tprovider.get('invalid_form'),
+                        Tprovider.get('password_min8ch'),
                         8,
-                        "Pole nie może być puste"),
+                        Tprovider.get('field_cannotempty')),
                     controller: _pass1,
                   ),
                   TextFormField(
                     decoration:
-                        InputDecoration(labelText: "Potwierdź nowe hasło"),
+                        InputDecoration(labelText: Tprovider.get('confirm_new_pass')),
                     obscureText: true,
                     validator: (value) {
                       if (value != _pass1.text)
-                        return "Hasła musza być takie same";
+                        return Tprovider.get('passwords_need_equal');
                       return null;
                     },
                     controller: _pass2,
@@ -71,17 +72,17 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
                      var res = await ApiService.instance.changePassword(_pass1.text);
                       Navigator.pop(NavigationContext.mainNavKey.currentContext!);
                       if(res) {
-                       SuccessDialog.show(NavigationContext.mainNavKey.currentContext!, "Hasło zmienione poprawnie!", onOk: () async {
+                       SuccessDialog.show(NavigationContext.mainNavKey.currentContext!, Tprovider.get('password_ch_suc'), onOk: () async {
                          Navigator.pop(NavigationContext.mainNavKey.currentContext!);
                          Navigator.pop(NavigationContext.mainNavKey.currentContext!);
                        });
                      }else {
-                       ErrorDialog.show(NavigationContext.mainNavKey.currentContext!, "Hasła nie udało się zmienić. Skontaktuj się z bankiem.", onOk: () async {
+                       ErrorDialog.show(NavigationContext.mainNavKey.currentContext!, Tprovider.get('password_ch_fail'), onOk: () async {
                          Navigator.pop(NavigationContext.mainNavKey.currentContext!);
                        });
                      }
                     },
-                    child: Text("Zmień hasło"),
+                    child: Text(Tprovider.get('drawer_pass')),
                   )
                 ],
               ),

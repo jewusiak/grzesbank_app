@@ -5,6 +5,7 @@ import 'package:grzesbank_app/api/responses/PasswordCombinationResponse.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
@@ -25,7 +26,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Logowanie do Grzesbank24"),
+        title: Text("${Tprovider.get('drawer_login')} ${Tprovider.get('to')} Grzesbank24"),
       ),
       body: Center(
         child: Container(
@@ -36,14 +37,14 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 controller: emailInputController,
                 onFieldSubmitted: (value) async => await loginButtonPressed(),
-                decoration: InputDecoration(hintText: "Twój email"),
+                decoration: InputDecoration(hintText: Tprovider.get('email_address')),
                 enabled: loginState == LoginState.AWAITING_EMAIL,
               ),
               SizedBox(
                 height: 20,
               ),
               (loginState != LoginState.AWAITING_EMAIL
-                  ? Text("Podaj odpowiednie znaki hasła:")
+                  ? Text(Tprovider.get('login_pass'))
                   : Container()),
               SizedBox(
                 height: loginState != LoginState.AWAITING_EMAIL ? 12 : 0,
@@ -54,7 +55,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               ElevatedButton(
                   onPressed: () async => await loginButtonPressed(),
-                  child: Text("Zaloguj się")),
+                  child: Text(Tprovider.get('drawer_login'))),
             ],
           ),
         ),
@@ -93,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
           passwordControllers = genTecs();
           emailInputController.clear();
         });
-        ErrorDialog.show(context, "Nieprawidłowe dane logowania. Spróbuj ponownie. Po kilku nieudanych próbach, konto może zostać zablokowane.");
+        ErrorDialog.show(context, Tprovider.get('invalidcred_err'));
       }
     }
   }
@@ -119,8 +120,7 @@ class _LoginViewState extends State<LoginView> {
           onChanged: (value) {
             if (value.length == 1) {
               FocusScope.of(context).nextFocus();
-            } else
-              FocusScope.of(context).previousFocus();
+            } 
           },
         ),
       ));

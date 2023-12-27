@@ -3,6 +3,7 @@ import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/api/responses/SensitiveDataResponse.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 
 class ProfileView extends StatefulWidget {
@@ -22,7 +23,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: Text("Twój profil"),
+      title: Text(Tprovider.get('drawer_profile')),
       body: Center(
         child: FutureBuilder(
           future: _future,
@@ -40,7 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Dane wrażliwe - profil", style: TextStyle(fontSize: 36),),
+                    Text(Tprovider.get('sensitivedata_profile'), style: TextStyle(fontSize: 36),),
                     SizedBox(height: 15,),
                     ElevatedButton(
                       child: Row(
@@ -48,8 +49,8 @@ class _ProfileViewState extends State<ProfileView> {
                         children: [
                           Icon(Icons.refresh),
                           Text(_hidden
-                              ? "  Odkryj dane"
-                              : "  Ukryj dane"),
+                              ? "  ${Tprovider.get('reveal_data')}"
+                              : "  ${Tprovider.get('hide_data')}"),
                         ],
                       ),
                       onPressed: () async {
@@ -77,14 +78,14 @@ class _ProfileViewState extends State<ProfileView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Nr pesel: "),
+                        Text("${Tprovider.get('pesel')}: "),
                         Text(snapshot.hasData && !_hidden ? resp?.pesel??"n/a" :"XXXXXXXXXXX")
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Nr dowodu osobistego: "),
+                        Text("${Tprovider.get('idnumber')}: "),
                         Text(snapshot.hasData && !_hidden ? resp?.documentNumber??"n/a" :"XXX XXXXXX")
                       ],
                     ),

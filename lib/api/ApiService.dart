@@ -9,6 +9,7 @@ import 'package:grzesbank_app/api/responses/SensitiveDataResponse.dart';
 import 'package:grzesbank_app/api/responses/TransactionHistoryPageResponse.dart';
 import 'package:grzesbank_app/api/responses/UserBasicData.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:provider/provider.dart';
 
 class ApiService {
@@ -60,7 +61,7 @@ class ApiService {
   }
 
   Future sendLogoutRequest() async {
-    await _client.delete("/auth/logout", successCode: 204);
+    await _client.post("/auth/logout", successCode: 204);
     await _client.clearCookies();
   }
 
@@ -84,9 +85,9 @@ class ApiService {
       await _client.post(
           '/transactions/create', body: data, refreshAuthOnSuccess: true);
     } on HttpUnexpectedResponseError catch(e) {
-      if(e.response.statusCode == 418) return "Niewystarczające środki na koncie";
-      if(e.response.statusCode == 400) return "Nieprawidłowo wypełniony formularz";
-      return "Niespodziewany błąd ${e.response.statusCode}";
+      if(e.response.statusCode == 418) return Tprovider.get('insufficient_funds');
+      if(e.response.statusCode == 400) return Tprovider.get('invalid_form');
+      return "${Tprovider.get('unexpected_err')} ${e.response.statusCode}";
     }
     return null;
   }
