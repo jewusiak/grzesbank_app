@@ -29,11 +29,10 @@ class _ProfileViewState extends State<ProfileView> {
           future: _future,
           builder: (context, snapshot) {
             var resp = snapshot.hasData &&
-                snapshot.connectionState ==
-                    ConnectionState.done
+                    snapshot.connectionState == ConnectionState.done
                 ? (snapshot.data as SensitiveDataResponse?)
                 : null;
-            
+
             return SingleChildScrollView(
               child: Container(
                 width: 500,
@@ -41,8 +40,13 @@ class _ProfileViewState extends State<ProfileView> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(Tprovider.get('sensitivedata_profile'), style: TextStyle(fontSize: 36),),
-                    SizedBox(height: 15,),
+                    Text(
+                      Tprovider.get('sensitivedata_profile'),
+                      style: TextStyle(fontSize: 36),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     ElevatedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -54,7 +58,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ],
                       ),
                       onPressed: () async {
-                        if(!_hidden){
+                        if (!_hidden) {
                           setState(() {
                             _hidden = true;
                             _future = _emptyFuture;
@@ -63,30 +67,38 @@ class _ProfileViewState extends State<ProfileView> {
                           WaitingDialog.show(context);
                           setState(() {
                             _future = Future(() async {
-                              var res = await ApiService.instance.getSensitiveData();
+                              var res =
+                                  await ApiService.instance.getSensitiveData();
                               setState(() {
                                 _hidden = false;
                               });
-                              Navigator.pop(NavigationContext.mainNavKey.currentContext!);
+                              Navigator.pop(
+                                  NavigationContext.mainNavKey.currentContext!);
                               return res;
                             });
                           });
                         }
                       },
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("${Tprovider.get('pesel')}: "),
-                        Text(snapshot.hasData && !_hidden ? resp?.pesel??"n/a" :"XXXXXXXXXXX")
+                        Text(snapshot.hasData && !_hidden
+                            ? resp?.pesel ?? "n/a"
+                            : "XXXXXXXXXXX")
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("${Tprovider.get('idnumber')}: "),
-                        Text(snapshot.hasData && !_hidden ? resp?.documentNumber??"n/a" :"XXX XXXXXX")
+                        Text(snapshot.hasData && !_hidden
+                            ? resp?.documentNumber ?? "n/a"
+                            : "XXX XXXXXX")
                       ],
                     ),
                   ],

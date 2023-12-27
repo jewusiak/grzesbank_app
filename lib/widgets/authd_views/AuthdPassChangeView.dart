@@ -19,8 +19,8 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final _pass1 = TextEditingController(); 
-    final _pass2 = TextEditingController(); 
+    final _pass1 = TextEditingController();
+    final _pass2 = TextEditingController();
 
     return AppScaffold(
       title: Text(Tprovider.get('send_transfer')),
@@ -42,7 +42,8 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
                     height: 15,
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: Tprovider.get('new_pass')),
+                    decoration:
+                        InputDecoration(labelText: Tprovider.get('new_pass')),
                     obscureText: true,
                     validator: (value) => RegexMatchers.matchPassword(
                         value,
@@ -53,8 +54,8 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
                     controller: _pass1,
                   ),
                   TextFormField(
-                    decoration:
-                        InputDecoration(labelText: Tprovider.get('confirm_new_pass')),
+                    decoration: InputDecoration(
+                        labelText: Tprovider.get('confirm_new_pass')),
                     obscureText: true,
                     validator: (value) {
                       if (value != _pass1.text)
@@ -69,18 +70,27 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
                   ElevatedButton(
                     onPressed: () async {
                       WaitingDialog.show(context);
-                     var res = await ApiService.instance.changePassword(_pass1.text);
-                      Navigator.pop(NavigationContext.mainNavKey.currentContext!);
-                      if(res) {
-                       SuccessDialog.show(NavigationContext.mainNavKey.currentContext!, Tprovider.get('password_ch_suc'), onOk: () async {
-                         Navigator.pop(NavigationContext.mainNavKey.currentContext!);
-                         Navigator.pop(NavigationContext.mainNavKey.currentContext!);
-                       });
-                     }else {
-                       ErrorDialog.show(NavigationContext.mainNavKey.currentContext!, Tprovider.get('password_ch_fail'), onOk: () async {
-                         Navigator.pop(NavigationContext.mainNavKey.currentContext!);
-                       });
-                     }
+                      var res =
+                          await ApiService.instance.changePassword(_pass1.text);
+                      Navigator.pop(
+                          NavigationContext.mainNavKey.currentContext!);
+                      if (res) {
+                        SuccessDialog.show(
+                            NavigationContext.mainNavKey.currentContext!,
+                            Tprovider.get('password_ch_suc'), onOk: () async {
+                          Navigator.pop(
+                              NavigationContext.mainNavKey.currentContext!);
+                          Navigator.pop(
+                              NavigationContext.mainNavKey.currentContext!);
+                        });
+                      } else {
+                        ErrorDialog.show(
+                            NavigationContext.mainNavKey.currentContext!,
+                            Tprovider.get('password_ch_fail'), onOk: () async {
+                          Navigator.pop(
+                              NavigationContext.mainNavKey.currentContext!);
+                        });
+                      }
                     },
                     child: Text(Tprovider.get('drawer_pass')),
                   )

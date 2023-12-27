@@ -13,17 +13,18 @@ class TransactionHistoryPageResponse {
   int? numberOfElements;
   bool? empty;
 
-  TransactionHistoryPageResponse({this.content,
-    this.pageable,
-    this.last,
-    this.totalPages,
-    this.totalElements,
-    this.first,
-    this.size,
-    this.number,
-    this.sort,
-    this.numberOfElements,
-    this.empty});
+  TransactionHistoryPageResponse(
+      {this.content,
+      this.pageable,
+      this.last,
+      this.totalPages,
+      this.totalElements,
+      this.first,
+      this.size,
+      this.number,
+      this.sort,
+      this.numberOfElements,
+      this.empty});
 
   TransactionHistoryPageResponse.fromJson(Map<String, dynamic> json) {
     if (json['content'] != null) {
@@ -79,11 +80,11 @@ class Pageable {
 
   Pageable(
       {this.pageNumber,
-        this.pageSize,
-        this.sort,
-        this.offset,
-        this.paged,
-        this.unpaged});
+      this.pageSize,
+      this.sort,
+      this.offset,
+      this.paged,
+      this.unpaged});
 
   Pageable.fromJson(Map<String, dynamic> json) {
     pageNumber = json['pageNumber'];

@@ -5,6 +5,7 @@ import 'package:grzesbank_app/api/responses/PasswordCombinationResponse.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
+import 'package:grzesbank_app/utils/RegexMatchers.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +24,12 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("${Tprovider.get('drawer_login')} ${Tprovider.get('to')} Grzesbank24"),
+        title: Text(
+            "${Tprovider.get('drawer_login')} ${Tprovider.get('to')} Grzesbank24"),
       ),
       body: Center(
         child: Container(
@@ -34,11 +37,20 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextFormField(
-                controller: emailInputController,
-                onFieldSubmitted: (value) async => await loginButtonPressed(),
-                decoration: InputDecoration(hintText: Tprovider.get('email_address')),
-                enabled: loginState == LoginState.AWAITING_EMAIL,
+              Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: TextFormField(
+                  controller: emailInputController,
+                  onFieldSubmitted: (value) async {
+                    if(!_formKey.currentState!.validate()) return;
+                    await loginButtonPressed();
+                  },
+                  decoration:
+                      InputDecoration(hintText: Tprovider.get('email_address')),
+                  enabled: loginState == LoginState.AWAITING_EMAIL,
+                  validator: (value) => RegexMatchers.matchEmail(value),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -54,7 +66,10 @@ class _LoginViewState extends State<LoginView> {
                 height: loginState != LoginState.AWAITING_EMAIL ? 20 : 0,
               ),
               ElevatedButton(
-                  onPressed: () async => await loginButtonPressed(),
+                  onPressed: () async {
+                    if(!_formKey.currentState!.validate()) return;
+                    await loginButtonPressed();
+                  },
                   child: Text(Tprovider.get('drawer_login'))),
             ],
           ),
@@ -85,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
           password);
       Navigator.pop(context);
       print(result);
-      if(result != null) {
+      if (result != null) {
         Provider.of<AppState>(context, listen: false).setStateLogin(result);
         Navigator.pop(context);
       } else {
@@ -120,7 +135,7 @@ class _LoginViewState extends State<LoginView> {
           onChanged: (value) {
             if (value.length == 1) {
               FocusScope.of(context).nextFocus();
-            } 
+            }
           },
         ),
       ));

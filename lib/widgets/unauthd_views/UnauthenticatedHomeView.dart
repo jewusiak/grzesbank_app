@@ -5,6 +5,11 @@ class UnauthenticatedHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("--- UNAUTH ---", style: TextStyle(color: Colors.red),),);
+    return Center(
+      child: Text(
+        "--- UNAUTH ---",
+        style: TextStyle(color: Colors.red),
+      ),
+    );
   }
 }

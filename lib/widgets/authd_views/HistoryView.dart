@@ -50,7 +50,8 @@ class _HistoryViewState extends State<HistoryView> {
           var content = snapshot.data!;
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(top: 30, bottom: 30, left: 15, right: 15),
+              padding:
+                  EdgeInsets.only(top: 30, bottom: 30, left: 15, right: 15),
               width: 500,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -60,7 +61,7 @@ class _HistoryViewState extends State<HistoryView> {
                     style: TextStyle(fontSize: 36),
                   ),
                   Text(
-                    "${Tprovider.get('summary_for_acc')} ${appState.userBasicData?.formattedAccountNumber??"n/a"}",
+                    "${Tprovider.get('summary_for_acc')} ${appState.userBasicData?.formattedAccountNumber ?? "n/a"}",
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(
@@ -68,7 +69,8 @@ class _HistoryViewState extends State<HistoryView> {
                   ),
                   ListView.builder(
                     itemCount: content.numberOfElements ?? 0,
-                    itemBuilder: (context, index) => TransactionCard(content.content![index]),
+                    itemBuilder: (context, index) =>
+                        TransactionCard(content.content![index]),
                     shrinkWrap: true,
                   ),
                   SizedBox(
@@ -137,9 +139,7 @@ class _HistoryViewState extends State<HistoryView> {
 }
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(
-    this.item, {super.key}
-  );
+  const TransactionCard(this.item, {super.key});
 
   final TransactionDto item;
 
@@ -153,7 +153,7 @@ class TransactionCard extends StatelessWidget {
         title: Text("${item.title ?? ""}"),
         subtitle: Text(
             "${isReceived ? Tprovider.get('from') : Tprovider.get('to')} ${item.contraSideName ?? "n/a"}\n"
-                "${item.formattedDate}"),
+            "${item.formattedDate}"),
         trailing: Text(
           "${item.formattedAmount} PLN",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

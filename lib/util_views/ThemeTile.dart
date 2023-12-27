@@ -19,8 +19,7 @@ class _ThemeTileState extends State<ThemeTile> {
       leading: Icon(isLight ? Icons.dark_mode : Icons.light_mode),
       onTap: () async {
         AppState.toggleThemeMode();
-        setState(() {
-        });
+        setState(() {});
       },
     );
   }

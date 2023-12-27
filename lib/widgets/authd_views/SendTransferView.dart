@@ -19,7 +19,7 @@ class SendTransferView extends StatefulWidget {
 
 class _SendTransferViewState extends State<SendTransferView> {
   final _formKey = GlobalKey<FormState>();
-  
+
   final _name = TextEditingController();
   final _address = TextEditingController();
   final _accn = TextEditingController();
@@ -55,8 +55,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                     height: 15,
                   ),
                   TextFormField(
-                    decoration:
-                        InputDecoration(labelText: Tprovider.get('recipient_name_surname')),
+                    decoration: InputDecoration(
+                        labelText: Tprovider.get('recipient_name_surname')),
                     validator: (value) => RegexMatchers.matchPlTextbox(value),
                     controller: _name,
                     enabled: _state == SendTransferState.ENTRY,
@@ -65,7 +65,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                     height: 15,
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: Tprovider.get('recipient_address')),
+                    decoration: InputDecoration(
+                        labelText: Tprovider.get('recipient_address')),
                     validator: (value) => RegexMatchers.matchPlTextbox(value),
                     controller: _address,
                     enabled: _state == SendTransferState.ENTRY,
@@ -74,8 +75,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                     height: 15,
                   ),
                   TextFormField(
-                    decoration:
-                        InputDecoration(labelText: Tprovider.get('recipient_accn')),
+                    decoration: InputDecoration(
+                        labelText: Tprovider.get('recipient_accn')),
                     validator: (value) => RegexMatchers.matchAccNumber(value),
                     inputFormatters: [
                       AccountNumberFormatter(),
@@ -92,10 +93,10 @@ class _SendTransferViewState extends State<SendTransferView> {
                     children: [
                       Flexible(
                         child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: Tprovider.get('trans_title')),
-                          validator: (value) => RegexMatchers.matchPlTextbox(
-                              value),
+                          decoration: InputDecoration(
+                              labelText: Tprovider.get('trans_title')),
+                          validator: (value) =>
+                              RegexMatchers.matchPlTextbox(value),
                           controller: _title,
                           enabled: _state == SendTransferState.ENTRY,
                         ),
@@ -106,7 +107,8 @@ class _SendTransferViewState extends State<SendTransferView> {
                       ),
                       Flexible(
                         child: TextFormField(
-                          decoration: InputDecoration(labelText: Tprovider.get('amount')),
+                          decoration: InputDecoration(
+                              labelText: Tprovider.get('amount')),
                           validator: (value) => RegexMatchers.matchCcyAmount(
                             value,
                             trim: true,
@@ -132,19 +134,27 @@ class _SendTransferViewState extends State<SendTransferView> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if(_state == SendTransferState.ENTRY && _formKey.currentState!.validate()){
+                      if (_state == SendTransferState.ENTRY &&
+                          _formKey.currentState!.validate()) {
                         setState(() {
                           _state = SendTransferState.CONFIRMATION;
                         });
                         return;
                       }
-                      if(_state == SendTransferState.CONFIRMATION) {
+                      if (_state == SendTransferState.CONFIRMATION) {
                         // sendFlow
                         WaitingDialog.show(context);
-                        var res = await ApiService.instance.sendTransfer(_name.text, _address.text, _accn.text, _amount.text, _title.text);
-                        if(res == null) {
+                        var res = await ApiService.instance.sendTransfer(
+                            _name.text,
+                            _address.text,
+                            _accn.text,
+                            _amount.text,
+                            _title.text);
+                        if (res == null) {
                           Navigator.pop(context);
-                          SuccessDialog.show(context, Tprovider.get('succ_trans'), onOk: () async {
+                          SuccessDialog.show(
+                              context, Tprovider.get('succ_trans'),
+                              onOk: () async {
                             Navigator.pop(context);
                             Navigator.pop(context, true);
                           });

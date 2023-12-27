@@ -1,5 +1,3 @@
-
-import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/responses/dtos/TransactionDto.dart';
 import 'package:grzesbank_app/utils/Formatters.dart';
 
@@ -43,5 +41,6 @@ class AccountSummaryResponse {
     return data;
   }
 
-  String get formattedAccountNumber => Formatters.formatAccountNumber(accountNumber, assertLength: false);
+  String get formattedAccountNumber =>
+      Formatters.formatAccountNumber(accountNumber, assertLength: false);
 }

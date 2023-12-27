@@ -26,13 +26,16 @@ class MyApp extends StatelessWidget {
       ],
       child: ValueListenableBuilder(
         valueListenable: AppState.themeMode,
-        builder:(context, value, child) => MaterialApp(
+        builder: (context, value, child) => MaterialApp(
           navigatorKey: NavigationContext.mainNavKey,
           title: 'Grzesbank',
-          theme: ThemeData.light(useMaterial3: true)/*ThemeData(
+          theme: ThemeData.light(
+              useMaterial3:
+                  true) /*ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
-          )*/,
+          )*/
+          ,
           darkTheme: ThemeData.dark(useMaterial3: true),
           themeMode: value,
           home: const HomePage(),

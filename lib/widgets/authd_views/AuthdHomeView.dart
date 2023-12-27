@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
-import 'package:flutter/services.dart';
 
 class AuthdHomeView extends StatefulWidget {
   const AuthdHomeView({super.key});
@@ -14,11 +14,11 @@ class AuthdHomeView extends StatefulWidget {
 class _AuthdHomeViewState extends State<AuthdHomeView> {
   @override
   Widget build(BuildContext context) {
-    var future = Future(() async => await ApiService.instance.getAccountSummary());
+    var future =
+        Future(() async => await ApiService.instance.getAccountSummary());
     return Center(
       child: FutureBuilder(
-        future:
-            future,
+        future: future,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
@@ -37,16 +37,25 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [ 
+                    children: [
                       Text(
                         "${Tprovider.get('summary_for_acc')} ${summary.formattedAccountNumber}",
                         style: TextStyle(fontSize: 12),
                       ),
-                      IconButton(onPressed: () async {
-                        if(summary.accountNumber == null) return;
-                        await Clipboard.setData(ClipboardData(text: summary.accountNumber!));
-                        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Tprovider.get('copied_accn'))));
-                      }, icon: Icon(Icons.copy, size: 15,))
+                      IconButton(
+                          onPressed: () async {
+                            if (summary.accountNumber == null) return;
+                            await Clipboard.setData(
+                                ClipboardData(text: summary.accountNumber!));
+                            await ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content:
+                                        Text(Tprovider.get('copied_accn'))));
+                          },
+                          icon: Icon(
+                            Icons.copy,
+                            size: 15,
+                          ))
                     ],
                   ),
                   SizedBox(
@@ -68,7 +77,11 @@ class _AuthdHomeViewState extends State<AuthdHomeView> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () async => Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryView(),)),
+                      onPressed: () async => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HistoryView(),
+                          )),
                       child: Text("${Tprovider.get('more_history')} >>"),
                     ),
                   ),

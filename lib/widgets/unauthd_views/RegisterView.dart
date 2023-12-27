@@ -281,8 +281,7 @@ class _RegisterViewState extends State<RegisterView> {
         _startingBalance.text);
     Navigator.pop(context);
     if (res) {
-      SuccessDialog.show(context,
-          Tprovider.get('reg_succ_alert'),
+      SuccessDialog.show(context, Tprovider.get('reg_succ_alert'),
           onOk: () async {
         Navigator.pop(context);
         Navigator.pop(context);

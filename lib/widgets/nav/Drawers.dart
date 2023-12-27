@@ -147,7 +147,10 @@ class LoggedoutDrawer extends StatelessWidget {
           DrawerHeader(
             child: Center(
               child: Column(
-                children: [Text(Tprovider.get('drawer_login')), Text("${Tprovider.get('to')} Grzesbank24")],
+                children: [
+                  Text(Tprovider.get('drawer_login')),
+                  Text("${Tprovider.get('to')} Grzesbank24")
+                ],
                 mainAxisSize: MainAxisSize.min,
               ),
             ),
@@ -180,7 +183,12 @@ class LoggedoutDrawer extends StatelessWidget {
                   leading: Icon(Icons.g_mobiledata),
                   onTap: () async {
                     final result = await FlutterWebAuth2.authenticate(
-                        url: Uri(host: Constants.apiHost, port: Constants.apiPort, path: Constants.apiOauthEndpoint, scheme: Constants.apiProtocol).toString(),
+                        url: Uri(
+                                host: Constants.apiHost,
+                                port: Constants.apiPort,
+                                path: Constants.apiOauthEndpoint,
+                                scheme: Constants.apiProtocol)
+                            .toString(),
                         //todo: http here!
                         callbackUrlScheme: "gb24");
                     try {

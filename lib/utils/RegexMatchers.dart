@@ -5,8 +5,9 @@ class RegexMatchers {
       RegExp(r"^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\-]+$", unicode: true);
   static final _plTextbox =
       RegExp(r"^[0-9A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\-_/ ,]+$", unicode: true);
-  static final _email =
-      RegExp(r"^[0-9A-Za-z\-+~]+@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,}$", unicode: true);
+  static final _email = RegExp(
+      r"^[0-9A-Za-z\-+~]+@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,}$",
+      unicode: true);
   static final _idNumber = RegExp(r"^[A-Za-z]{3} ?[0-9]{6}$", unicode: true);
   static final _number = RegExp(r"[0-9]", unicode: true);
   static final _plZipCode = RegExp(r"^[0-9]{2}-?[0-9]{3}$", unicode: true);
@@ -56,7 +57,7 @@ class RegexMatchers {
     return _matchRegexWithParams(
         _plTextbox, word, trim, matchBlank, matchNull, onFailure, onEmpty);
   }
-  
+
   static String? matchAccNumber(String? word,
       {bool trim = false,
       bool matchBlank = false,

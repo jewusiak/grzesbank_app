@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
 
 class SuccessDialog {
-  static show(context, String message, {Future<dynamic> Function()? onOk}) async {
+  static show(context, String message,
+      {Future<dynamic> Function()? onOk}) async {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
