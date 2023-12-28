@@ -8,21 +8,40 @@ import 'package:provider/provider.dart';
 class AppState extends ChangeNotifier {
   bool _isAuthenticated = false;
   ValueNotifier<int?> _sessionValidity = ValueNotifier(null);
-  //Use of value notifier
+  String _lang = "pl_PL";
+  static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
+
+  static void toggleThemeMode() {
+    themeMode.value =
+        themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    themeMode.notifyListeners();
+  }
 
   set isAuthenticated(bool value) {
     _isAuthenticated = value;
     notifyListeners();
   }
 
+  String get lang => _lang;
+
+  void toggleLang() {
+    lang = lang == 'pl_PL' ? 'en_US' : 'pl_PL';
+  }
+
+  set lang(String value) {
+    _lang = value;
+    notifyListeners();
+  }
+
   int? get sessionValidity => _sessionValidity.value;
+
   ValueNotifier<int?> get sessionValidityValueNotifier => _sessionValidity;
 
   bool get isAuthenticated => _isAuthenticated;
 
   void refreshValidity() {
     print("refreshValidity()");
-    _sessionValidity.value = 5*60; //in seconds
+    _sessionValidity.value = 5 * 60; //in seconds
     _timer.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_sessionValidity.value == null || !_isAuthenticated) {
@@ -33,8 +52,12 @@ class AppState extends ChangeNotifier {
       if (_sessionValidity.value == 0) {
         _timer.cancel();
         setStatelogout();
-        Navigator.popUntil(NavigationContext.mainNavKey.currentContext!, (route) => route.isFirst);
-        ErrorDialog.show(NavigationContext.mainNavKey.currentContext!, "Sesja zakończyła się. Zaloguj się ponownie,", onOk: () async => Navigator.pop(NavigationContext.mainNavKey.currentContext!));
+        Navigator.popUntil(NavigationContext.mainNavKey.currentContext!,
+            (route) => route.isFirst);
+        ErrorDialog.show(NavigationContext.mainNavKey.currentContext!,
+            "Sesja zakończyła się. Zaloguj się ponownie,",
+            onOk: () async =>
+                Navigator.pop(NavigationContext.mainNavKey.currentContext!));
       }
       _sessionValidity.notifyListeners();
     });
@@ -59,8 +82,9 @@ class AppState extends ChangeNotifier {
   UserBasicData? _userBasicData;
 
   UserBasicData? get userBasicData => _userBasicData;
-  
-  static AppState get instance => Provider.of(NavigationContext.mainNavKey.currentContext!, listen: false); 
+
+  static AppState get instance =>
+      Provider.of(NavigationContext.mainNavKey.currentContext!, listen: false);
 }
 
 class NavigationContext {
@@ -68,5 +92,6 @@ class NavigationContext {
   static final _authNavKey = GlobalKey<NavigatorState>();
 
   static GlobalKey<NavigatorState> get mainNavKey => _mainNavKey;
+
   static GlobalKey<NavigatorState> get authNavKey => _authNavKey;
 }

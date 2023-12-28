@@ -5,7 +5,7 @@ class UserBasicData {
   String? surname;
   String? email;
   String? accountNumber;
-  
+
   UserBasicData({this.firstName, this.surname, this.email, this.accountNumber});
 
   UserBasicData.fromJson(Map<String, dynamic> json) {
@@ -23,6 +23,7 @@ class UserBasicData {
     data['accountNumber'] = this.accountNumber;
     return data;
   }
-  
-  String get formattedAccountNumber => Formatters.formatAccountNumber(accountNumber);
+
+  String get formattedAccountNumber =>
+      Formatters.formatAccountNumber(accountNumber);
 }

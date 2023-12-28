@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:grzesbank_app/api/exceptions/HttpUnexpectedResponseError.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
+import 'package:grzesbank_app/utils/Constants.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:requests/requests.dart';
@@ -12,9 +14,9 @@ class ApiClient {
 
   static final ApiClient instance = ApiClient._constructor();
 
-  static const String _host = "localhost";
-  static const int _port = 8080;
-  static const String _httpProtocol = "http";
+  final String _host = Constants.apiHost;
+  final int _port = Constants.apiPort;
+  final String _httpProtocol = Constants.apiProtocol;
   static const _baseHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -108,7 +110,7 @@ class ApiClient {
                 path: path,
                 queryParameters: urlParams)
             .toString(),
-        body: json.encode(body),
+        json: body,
         headers: {..._baseHeaders, ...?headers});
     handleHttpResponseCode(res, successCode, refreshAuthOnSuccess);
     return cast?.call(json.decode(res.body)) ?? res;
@@ -146,7 +148,7 @@ class ApiClient {
     if (res.statusCode == 403) {
       if (appState.isAuthenticated) {
         ErrorDialog.show(NavigationContext.mainNavKey.currentContext!,
-            "Sesja niespodziewanie się zakończyła. Zaloguj się ponownie.");
+            Tprovider.get('end_session_err'));
       }
       appState.setStatelogout();
       return;
