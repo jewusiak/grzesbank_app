@@ -11,7 +11,9 @@
 
 ---
 
-Aplikacja dostępna jest po adresem [https://gb24.gcp.jewusiak.pl](https://gb24.gcp.jewusiak.pl)
+- Aplikacja dostępna jest po adresem [https://gb24.gcp.jewusiak.pl](https://gb24.gcp.jewusiak.pl)
+- API pracuje pod adresem `api.gb24.gcp.jewusiak.pl`
+- Repozytorium API - [https://github.com/jewusiak-pw/grzesbank-api](https://github.com/jewusiak-pw/grzesbank-api)
 
 ---
 
