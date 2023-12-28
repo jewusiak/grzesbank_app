@@ -8,6 +8,7 @@ import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdHomeView.dart';
 import 'package:grzesbank_app/widgets/nav/DrawerProvider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
+import 'package:grzesbank_app/widgets/unauthd_views/UnauthdPassChangeView.dart';
 import 'package:grzesbank_app/widgets/unauthd_views/UnauthenticatedHomeView.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,21 @@ class MyApp extends StatelessWidget {
           ,
           darkTheme: ThemeData.dark(useMaterial3: true),
           themeMode: value,
-          home: const HomePage(),
+          routes: {
+            "/": (context) => HomePage(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name?.startsWith("/resetpass") ?? false) {
+              //checks if reset pass route is called
+              var params = Uri.parse(settings.name!).queryParameters;
+              if (params['token'] != null) {
+                return MaterialPageRoute(
+                  builder: (context) => UnauthdPassChangeView(params['token']!),
+                );
+              }
+            }
+            return null;
+          },
         ),
       ),
     );
@@ -82,17 +97,13 @@ class _HomePageState extends State<HomePage> {
   });
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     return FutureBuilder(
       future: _prepareAppFuture,
-      builder: (context, snapshot) =>
-          snapshot.connectionState == ConnectionState.done
+      builder: (context, snapshot) {
+        print("conn state: ${snapshot.connectionState.name}");
+        return snapshot.connectionState == ConnectionState.done
               ? AppScaffold(
                   title: Text("Grzesbank24"),
                   drawer: DrawerProvider(),
@@ -103,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                   body: Center(
                     child: CircularProgressIndicator(),
                   ),
-                ),
+                );
+      },
     );
   }
 }

@@ -110,7 +110,7 @@ class ApiClient {
                 path: path,
                 queryParameters: urlParams)
             .toString(),
-        body: json.encode(body),
+        json: body,
         headers: {..._baseHeaders, ...?headers});
     handleHttpResponseCode(res, successCode, refreshAuthOnSuccess);
     return cast?.call(json.decode(res.body)) ?? res;

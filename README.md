@@ -23,4 +23,4 @@ Aplikacja pozwala na podstawowe funkcje bankowości mobilnej:
 6. Sprawdzenie danych karty płatniczej
 7. Wrażliwe dane są szyfrowane w bazie
 8. Zmiana języka, wyglądu UI
-9. Zmiana hasła po zalogowaniu
+9. Zmiana hasła po zalogowaniu, lub przywracanie hasła linkiem z maila

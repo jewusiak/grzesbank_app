@@ -145,4 +145,24 @@ class ApiService {
       return false;
     }
   }
+
+  Future<bool> changePasswordWithToken(String pass, String token) async {
+    await Future.delayed(Duration(milliseconds: 500));
+    try {
+      await _client.put('/auth/resetpassword',
+          body: {'password': pass, 'token': token});
+      return true;
+    } on HttpUnexpectedResponseError catch (e){
+      return false;
+    }
+  }
+  Future<bool> requestPasswordReset(String email) async {
+    await Future.delayed(Duration(milliseconds: 500));
+    try {
+      await _client.post('/auth/resetpassword', urlParams: {'email':email});
+      return true;
+    } on HttpUnexpectedResponseError catch (e){
+      return false;
+    }
+  }
 }

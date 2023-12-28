@@ -23,7 +23,7 @@ class _AuthdPassChangeViewState extends State<AuthdPassChangeView> {
     final _pass2 = TextEditingController();
 
     return AppScaffold(
-      title: Text(Tprovider.get('send_transfer')),
+      title: Text(Tprovider.get('drawer_pass')),
       body: Center(
         child: SingleChildScrollView(
           child: Container(

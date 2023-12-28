@@ -7,6 +7,7 @@ import 'package:grzesbank_app/util_views/ErrorDialog.dart';
 import 'package:grzesbank_app/util_views/WaitingDialog.dart';
 import 'package:grzesbank_app/utils/RegexMatchers.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
+import 'package:grzesbank_app/widgets/unauthd_views/ResetPassRequestView.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
@@ -43,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
                 child: TextFormField(
                   controller: emailInputController,
                   onFieldSubmitted: (value) async {
-                    if(!_formKey.currentState!.validate()) return;
+                    if (!_formKey.currentState!.validate()) return;
                     await loginButtonPressed();
                   },
                   decoration:
@@ -66,11 +67,17 @@ class _LoginViewState extends State<LoginView> {
                 height: loginState != LoginState.AWAITING_EMAIL ? 20 : 0,
               ),
               ElevatedButton(
-                  onPressed: () async {
-                    if(!_formKey.currentState!.validate()) return;
-                    await loginButtonPressed();
-                  },
-                  child: Text(Tprovider.get('drawer_login'))),
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) return;
+                  await loginButtonPressed();
+                },
+                child: Text(Tprovider.get('drawer_login')),
+              ),
+              SizedBox(height: 20,),
+              TextButton(onPressed: ()async {
+                Navigator.pop(context);
+                await Navigator.push(NavigationContext.mainNavKey.currentContext!, MaterialPageRoute(builder: (context) => ResetPassRequestView(),));
+              }, child: Text("${Tprovider.get('forgot_password')} >>"))
             ],
           ),
         ),

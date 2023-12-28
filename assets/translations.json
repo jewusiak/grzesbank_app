@@ -81,7 +81,12 @@
       "bank_locations_drawer": "Bank branches",
       "branch_no": "Branch no.",
       "your_location": "Your location",
-      "permission_denied_err": "Location permission was denied for this app. Please check app settings."
+      "permission_denied_err": "Location permission was denied for this app. Please check app settings.",
+      "forgot_pass_hdg": "Password Recovery",
+      "pass_req_succ": "If your account exists with the bank, we have sent an email to your email address with instructions to reset your password.",
+      "pass_req_fail": "There are issues with password recovery. Please contact the bank.",
+      "forgot_pass_btn": "Reset Password",
+      "forgot_password": "Password Recovery"
     }
   },
   {
@@ -166,7 +171,12 @@
       "bank_locations_drawer": "Oddziały banku",
       "branch_no": "Oddział nr",
       "your_location": "Twoja lokalizacja",
-      "permission_denied_err": "Uprawnienie do lokalizacji nie zostało przyznane. Sprawdź ustawienia aplikacji."
+      "permission_denied_err": "Uprawnienie do lokalizacji nie zostało przyznane. Sprawdź ustawienia aplikacji.",
+      "forgot_pass_hdg": "Przywracanie hasła",
+      "pass_req_succ": "Jeśli Twoje konto istnieje w banku, wysłaliśmy na Twój adres email wiadomość z instrukcjami odtworzenia hasła.",
+      "pass_req_fail": "Występują problemy z przywracaniem hasła. Skontaktuj się z bankiem.",
+      "forgot_pass_btn": "Przywróć hasło",
+      "forgot_password": "Przywracanie hasła"
     }
   }
 ]

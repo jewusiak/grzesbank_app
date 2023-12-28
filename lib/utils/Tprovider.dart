@@ -6,7 +6,7 @@ import 'package:grzesbank_app/state/AppState.dart';
 class Tprovider {
   static Map<String, Language>? _phrases; //language -> map of translations
 
-  static Future<void> init() async {
+  static Future<bool> init() async {
     final js = jsonDecode(await DefaultAssetBundle.of(
             NavigationContext.mainNavKey.currentContext!)
         .loadString("assets/translations.json"));
@@ -18,6 +18,7 @@ class Tprovider {
       lang.addTranslations(translationsMap);
       _phrases![trans['lang']] = lang;
     }
+    return true;
   }
 
   static String get(String key) {
