@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class AppState extends ChangeNotifier {
   bool _isAuthenticated = false;
   ValueNotifier<int?> _sessionValidity = ValueNotifier(null);
-  String _lang = "en_US";
+  String _lang = "pl_PL";
   static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
 
   static void toggleThemeMode() {
