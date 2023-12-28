@@ -1,6 +1,6 @@
 ## Aplikacja mobilna bankowa
 
-1. **Hosting API (i aplikacji webowej) na publicznym serwerze** - jest GCP
+1. **Hosting API (i aplikacji webowej) na publicznym serwerze** - jest hostowane na GCP
 2. **Kompatybilność aplikacji mobilnej i łączność z API** - jest
 3. **UI - spójność, HQ ikony, długie odpowiedzi UI z ikonami oczekiwania, walidacja danych** - jest
 4. **Język, tryby jasności** - polski/angielski, tryb jasny/ciemny
