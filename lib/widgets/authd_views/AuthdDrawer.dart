@@ -9,7 +9,6 @@ import 'package:grzesbank_app/widgets/authd_views/CcView.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
 import 'package:grzesbank_app/widgets/authd_views/ProfileView.dart';
 import 'package:grzesbank_app/widgets/authd_views/SendTransferView.dart';
-import 'package:grzesbank_app/widgets/unauthd_views/BankLocationView.dart';
 import 'package:provider/provider.dart';
 
 class AuthdDrawer extends StatelessWidget {
@@ -106,13 +105,6 @@ class AuthdDrawer extends StatelessWidget {
               } finally {}
               Provider.of<AppState>(context, listen: false).setStatelogout();
             },
-          ),
-          Divider(),
-          ListTile(
-            title: Text(Tprovider.get('bank_locations_drawer')),
-            leading: Icon(Icons.map),
-            onTap: () async => await Navigator.push(
-                context, MaterialPageRoute(builder: (_) => BankLocationView())),
           ),
           Divider(),
           LangTile(),

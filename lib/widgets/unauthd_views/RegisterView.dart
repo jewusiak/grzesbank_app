@@ -101,7 +101,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   labelText: Tprovider.get('confirm_email')),
                               keyboardType: TextInputType.emailAddress,
                               controller: _email2,
-                              validator: (value) => value == _email1.text
+                              validator: (value) => value?.toLowerCase() == _email1.text.toLowerCase()
                                   ? null
                                   : Tprovider.get('email_mismatch'),
                             ),

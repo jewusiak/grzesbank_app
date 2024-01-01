@@ -13,10 +13,7 @@ class ApiClient {
   ApiClient._constructor();
 
   static final ApiClient instance = ApiClient._constructor();
-
-  final String _host = Constants.apiHost;
-  final int _port = Constants.apiPort;
-  final String _httpProtocol = Constants.apiProtocol;
+  
   static const _baseHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -41,17 +38,21 @@ class ApiClient {
       int successCode = 200,
       bool refreshAuthOnSuccess = false}) async {
     var res = await Requests.get(
-        Uri(
-                scheme: _httpProtocol,
-                host: _host,
-                port: _port,
-                path: path,
-                queryParameters: _convertQueryParams(urlParams))
+        UriFactory(path, urlParams)
             .toString(),
         headers: {..._baseHeaders, ...?headers},
         withCredentials: true);
     handleHttpResponseCode(res, successCode, refreshAuthOnSuccess);
     return cast?.call(res.json()) ?? res;
+  }
+
+  Uri UriFactory(String path, Map<String, dynamic>? urlParams) {
+    return Uri(
+              scheme: Constants.apiProtocol,
+              host: Constants.apiHost,
+              port: Constants.apiPort,
+              path: Constants.apiPath+path,
+              queryParameters: _convertQueryParams(urlParams));
   }
 
   Future<dynamic> delete(String path,
@@ -61,12 +62,7 @@ class ApiClient {
       int successCode = 200,
       bool refreshAuthOnSuccess = false}) async {
     var res = await Requests.delete(
-        Uri(
-                scheme: _httpProtocol,
-                host: _host,
-                port: _port,
-                path: path,
-                queryParameters: urlParams)
+        UriFactory(path, urlParams)
             .toString(),
         headers: {..._baseHeaders, ...?headers});
     handleHttpResponseCode(res, successCode, refreshAuthOnSuccess);
@@ -81,12 +77,7 @@ class ApiClient {
       int successCode = 200,
       bool refreshAuthOnSuccess = false}) async {
     var res = await Requests.post(
-        Uri(
-                scheme: _httpProtocol,
-                host: _host,
-                port: _port,
-                path: path,
-                queryParameters: urlParams)
+        UriFactory(path, urlParams)
             .toString(),
         headers: {..._baseHeaders, ...?headers},
         json: body,
@@ -103,12 +94,7 @@ class ApiClient {
       int successCode = 200,
       bool refreshAuthOnSuccess = false}) async {
     var res = await Requests.put(
-        Uri(
-                scheme: _httpProtocol,
-                host: _host,
-                port: _port,
-                path: path,
-                queryParameters: urlParams)
+        UriFactory(path, urlParams)
             .toString(),
         json: body,
         headers: {..._baseHeaders, ...?headers});
@@ -124,12 +110,7 @@ class ApiClient {
       int successCode = 200,
       bool refreshAuthOnSuccess = false}) async {
     var res = await Requests.patch(
-        Uri(
-                scheme: _httpProtocol,
-                host: _host,
-                port: _port,
-                path: path,
-                queryParameters: urlParams)
+        UriFactory(path, urlParams)
             .toString(),
         body: body,
         headers: {..._baseHeaders, ...?headers});
@@ -157,6 +138,6 @@ class ApiClient {
   }
 
   Future clearCookies() async {
-    await Requests.clearStoredCookies(_host);
+    await Requests.clearStoredCookies(Constants.apiHost);
   }
 }

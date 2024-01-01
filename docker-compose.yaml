@@ -1,0 +1,49 @@
+services:
+  front:
+    build:
+      dockerfile: ./Dockerfile
+      args:
+        - API_PROTOCOL=https
+        - API_PORT=443
+        - API_HOST=localhost
+        - API_PATH=/api
+    container_name: gb24-app
+    ports:
+      - 8081:80
+    networks:
+      - intr
+      - extr
+  
+  back:
+    build: ../grzesbank-api/
+    container_name: gb24-api
+    volumes:
+      - api-db:/db
+    networks:
+      - intr
+    environment:
+      - FE_BASE_URL=https://localhost
+      - CRYPTO_KEY=i4coYlvz/vay4cZnJw+FRtK0O+05MWCd3N4a3WJenc8=
+  
+  nginx:
+    image: nginx
+    container_name: gb24-nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker_resources/ngconf.conf:/etc/nginx/conf.d/default.conf
+      - ./docker_resources/private.key:/etc/ssl/private.key
+      - ./docker_resources/cert.crt:/etc/ssl/cert.crt
+    networks:
+      - extr
+      - intr
+
+volumes:
+  api-db:
+
+networks:
+  intr:
+    internal: true
+  extr:
+    internal: false

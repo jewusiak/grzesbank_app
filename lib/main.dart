@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
+import 'package:grzesbank_app/utils/Constants.dart';
 import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdHomeView.dart';
 import 'package:grzesbank_app/widgets/nav/DrawerProvider.dart';
@@ -12,7 +13,7 @@ import 'package:grzesbank_app/widgets/unauthd_views/UnauthdPassChangeView.dart';
 import 'package:grzesbank_app/widgets/unauthd_views/UnauthenticatedHomeView.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -68,10 +69,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _done = false;
-
-  Future _prepareAppFuture = Future(() async {
+  final Future _prepareAppFuture = Future(() async {
     try {
+      //init translations
+      print("Labels init begin...");
+      await Tprovider.init();
+      print("Labels initiated");
+
+      //init constants
+      print("const init begin...");
+      Constants.init();
+      print("const init end");
+
       //recall login state begin
       try {
         var user = await ApiService.instance.getUserBasicData();
@@ -82,16 +91,10 @@ class _HomePageState extends State<HomePage> {
       } catch (e) {
         print("no recall of login state");
       }
-
-      //init translations
-      print("Labels init begin...");
-      await Tprovider.init();
-      print("Labels initiated");
     } catch (e) {
       ErrorDialog.show(NavigationContext.mainNavKey.currentContext!,
           Tprovider.get('startup_err'),
           onOk: () async {});
-      print("err details: \n${(e is Error ? (e as Error).toString() : "")}");
       rethrow;
     }
   });
@@ -104,17 +107,17 @@ class _HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         print("conn state: ${snapshot.connectionState.name}");
         return snapshot.connectionState == ConnectionState.done
-              ? AppScaffold(
-                  title: Text("Grzesbank24"),
-                  drawer: DrawerProvider(),
-                  body: appState.isAuthenticated
-                      ? AuthdHomeView()
-                      : UnauthenticatedHomeView())
-              : Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+            ? AppScaffold(
+                title: Text("Grzesbank24"),
+                drawer: DrawerProvider(),
+                body: appState.isAuthenticated
+                    ? AuthdHomeView()
+                    : UnauthenticatedHomeView())
+            : Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
       },
     );
   }
