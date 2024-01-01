@@ -9,6 +9,7 @@ import 'package:grzesbank_app/api/responses/SensitiveDataResponse.dart';
 import 'package:grzesbank_app/api/responses/TransactionHistoryPageResponse.dart';
 import 'package:grzesbank_app/api/responses/UserBasicData.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:provider/provider.dart';
 
 class ApiService {
@@ -50,13 +51,18 @@ class ApiService {
     return true;
   }
 
+  Future<UserBasicData?> getUserBasicData() async {
+    return await _client.get('/profile/basicdata',
+        cast: UserBasicData.fromJson);
+  }
+
   Future<AccountSummaryResponse> getAccountSummary() async {
     return await _client.get('/profile/summary',
         cast: AccountSummaryResponse.fromJson, refreshAuthOnSuccess: true);
   }
 
   Future sendLogoutRequest() async {
-    await _client.delete("/auth/logout", successCode: 204);
+    await _client.post("/auth/logout", successCode: 204);
     await _client.clearCookies();
   }
 
@@ -67,22 +73,24 @@ class ApiService {
         cast: TransactionHistoryPageResponse.fromJson,
         urlParams: {'page': page, 'size': size});
   }
-  
-  Future<String?> sendTransfer(String recipientname, String recipientaddress, String recipientAccn, String amount, String title) async {
+
+  Future<String?> sendTransfer(String recipientname, String recipientaddress,
+      String recipientAccn, String amount, String title) async {
     var data = {
-      "recipientName":recipientname,
-      "recipientAddress":recipientaddress,
-      "recipientAccountNumber":recipientAccn.replaceAll(RegExp(r"[^0-9]"), ''),
-      "amount":double.tryParse(amount),
-      "title":title
+      "recipientName": recipientname,
+      "recipientAddress": recipientaddress,
+      "recipientAccountNumber": recipientAccn.replaceAll(RegExp(r"[^0-9]"), ''),
+      "amount": double.tryParse(amount),
+      "title": title
     };
     try {
-      await _client.post(
-          '/transactions/create', body: data, refreshAuthOnSuccess: true);
-    } on HttpUnexpectedResponseError catch(e) {
-      if(e.response.statusCode == 418) return "Niewystarczające środki na koncie";
-      if(e.response.statusCode == 400) return "Nieprawidłowo wypełniony formularz";
-      return "Niespodziewany błąd ${e.response.statusCode}";
+      await _client.post('/transactions/create',
+          body: data, refreshAuthOnSuccess: true);
+    } on HttpUnexpectedResponseError catch (e) {
+      if (e.response.statusCode == 418)
+        return Tprovider.get('insufficient_funds');
+      if (e.response.statusCode == 400) return Tprovider.get('invalid_form');
+      return "${Tprovider.get('unexpected_err')} ${e.response.statusCode}";
     }
     return null;
   }
@@ -117,20 +125,43 @@ class ApiService {
   }
 
   Future<CcDataResponse> getCcData() async {
-    return await _client.get('/profile/sensitive/cc', cast: CcDataResponse.fromJson, refreshAuthOnSuccess: true);
+    return await _client.get('/profile/sensitive/cc',
+        cast: CcDataResponse.fromJson, refreshAuthOnSuccess: true);
   }
-  
+
   Future<SensitiveDataResponse> getSensitiveData() async {
     await Future.delayed(Duration(milliseconds: 500));
-    return await _client.get('/profile/sensitive/data', cast: SensitiveDataResponse.fromJson, refreshAuthOnSuccess: true);
+    return await _client.get('/profile/sensitive/data',
+        cast: SensitiveDataResponse.fromJson, refreshAuthOnSuccess: true);
   }
-  
+
   Future<bool> changePassword(String pass) async {
     await Future.delayed(Duration(milliseconds: 500));
-    try{
-      await _client.post('/profile/changepassword', body: {'password': pass}, refreshAuthOnSuccess: true);
+    try {
+      await _client.post('/profile/changepassword',
+          body: {'password': pass}, refreshAuthOnSuccess: true);
       return true;
     } on HttpUnexpectedResponseError {
+      return false;
+    }
+  }
+
+  Future<bool> changePasswordWithToken(String pass, String token) async {
+    await Future.delayed(Duration(milliseconds: 500));
+    try {
+      await _client.put('/auth/resetpassword',
+          body: {'password': pass, 'token': token});
+      return true;
+    } on HttpUnexpectedResponseError catch (e){
+      return false;
+    }
+  }
+  Future<bool> requestPasswordReset(String email) async {
+    await Future.delayed(Duration(milliseconds: 500));
+    try {
+      await _client.post('/auth/resetpassword', urlParams: {'email':email});
+      return true;
+    } on HttpUnexpectedResponseError catch (e){
       return false;
     }
   }

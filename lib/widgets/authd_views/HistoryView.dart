@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/api/responses/dtos/TransactionDto.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/nav/SessionAppBar.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,7 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     final AppState appState = Provider.of<AppState>(context, listen: false);
     return AppScaffold(
-      title: Text("Historia"),
+      title: Text(Tprovider.get('drawer_history')),
       body: Center(
           child: FutureBuilder(
         future: _future,
@@ -49,17 +50,18 @@ class _HistoryViewState extends State<HistoryView> {
           var content = snapshot.data!;
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(top: 30, bottom: 30, left: 15, right: 15),
+              padding:
+                  EdgeInsets.only(top: 30, bottom: 30, left: 15, right: 15),
               width: 500,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Historia",
+                    Tprovider.get('drawer_history'),
                     style: TextStyle(fontSize: 36),
                   ),
                   Text(
-                    "Podsumowanie dla konta o nr ${appState.userBasicData?.formattedAccountNumber??"n/a"}",
+                    "${Tprovider.get('summary_for_acc')} ${appState.userBasicData?.formattedAccountNumber ?? "n/a"}",
                     style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(
@@ -67,7 +69,8 @@ class _HistoryViewState extends State<HistoryView> {
                   ),
                   ListView.builder(
                     itemCount: content.numberOfElements ?? 0,
-                    itemBuilder: (context, index) => TransactionCard(content.content![index]),
+                    itemBuilder: (context, index) =>
+                        TransactionCard(content.content![index]),
                     shrinkWrap: true,
                   ),
                   SizedBox(
@@ -136,9 +139,7 @@ class _HistoryViewState extends State<HistoryView> {
 }
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(
-    this.item, {super.key}
-  );
+  const TransactionCard(this.item, {super.key});
 
   final TransactionDto item;
 
@@ -151,8 +152,8 @@ class TransactionCard extends StatelessWidget {
             color: isReceived ? Colors.green.shade800 : Colors.red.shade800),
         title: Text("${item.title ?? ""}"),
         subtitle: Text(
-            "${isReceived ? "od" : "dla"} ${item.contraSideName ?? "n/a"}\n"
-                "${item.formattedDate}"),
+            "${isReceived ? Tprovider.get('from') : Tprovider.get('to')} ${item.contraSideName ?? "n/a"}\n"
+            "${item.formattedDate}"),
         trailing: Text(
           "${item.formattedAmount} PLN",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

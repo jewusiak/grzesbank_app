@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
+import 'package:grzesbank_app/util_views/LangTile.dart';
+import 'package:grzesbank_app/util_views/ThemeTile.dart';
+import 'package:grzesbank_app/utils/Tprovider.dart';
 import 'package:grzesbank_app/widgets/authd_views/AuthdPassChangeView.dart';
 import 'package:grzesbank_app/widgets/authd_views/CcView.dart';
 import 'package:grzesbank_app/widgets/authd_views/HistoryView.dart';
 import 'package:grzesbank_app/widgets/authd_views/ProfileView.dart';
 import 'package:grzesbank_app/widgets/authd_views/SendTransferView.dart';
-import 'package:grzesbank_app/widgets/unauthd_views/LoginView.dart';
-import 'package:grzesbank_app/widgets/unauthd_views/RegisterView.dart';
 import 'package:provider/provider.dart';
 
-class DrawerProvider extends StatelessWidget {
-  const DrawerProvider({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<AppState>(
-      builder: (context, value, child) {
-        return value.isAuthenticated ? LoggedinDrawer() : LoggedoutDrawer();
-      },
-    );
-  }
-}
-
-class LoggedinDrawer extends StatelessWidget {
-  const LoggedinDrawer({super.key});
+class AuthdDrawer extends StatelessWidget {
+  const AuthdDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +40,7 @@ class LoggedinDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-              title: Text("Historia"),
+              title: Text(Tprovider.get('drawer_history')),
               leading: Icon(Icons.history),
               onTap: () async {
                 Navigator.pop(context);
@@ -63,7 +51,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Wyślij przelew"),
+              title: Text(Tprovider.get('drawer_send_trans')),
               leading: Icon(Icons.send),
               onTap: () async {
                 Navigator.pop(context);
@@ -74,7 +62,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Twoje karty"),
+              title: Text(Tprovider.get('drawer_cards')),
               leading: Icon(Icons.credit_card),
               onTap: () async {
                 Navigator.pop(context);
@@ -86,7 +74,7 @@ class LoggedinDrawer extends StatelessWidget {
               }),
           Divider(),
           ListTile(
-              title: Text("Profil"),
+              title: Text(Tprovider.get('drawer_profile')),
               leading: Icon(Icons.person),
               onTap: () async {
                 Navigator.pop(context);
@@ -97,7 +85,7 @@ class LoggedinDrawer extends StatelessWidget {
                     ));
               }),
           ListTile(
-              title: Text("Zmień hasło"),
+              title: Text(Tprovider.get('drawer_pass')),
               leading: Icon(Icons.password),
               onTap: () async {
                 Navigator.pop(context);
@@ -109,7 +97,7 @@ class LoggedinDrawer extends StatelessWidget {
               }),
           Divider(),
           ListTile(
-            title: Text("Wyloguj się"),
+            title: Text(Tprovider.get('drawer_logout')),
             leading: Icon(Icons.logout),
             onTap: () async {
               try {
@@ -118,52 +106,9 @@ class LoggedinDrawer extends StatelessWidget {
               Provider.of<AppState>(context, listen: false).setStatelogout();
             },
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class LoggedoutDrawer extends StatelessWidget {
-  const LoggedoutDrawer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          DrawerHeader(
-            child: Center(
-              child: Column(
-                children: [Text("Zaloguj się"), Text("do Grzesbank24")],
-                mainAxisSize: MainAxisSize.min,
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text("Log in"),
-            leading: Icon(Icons.login),
-            onTap: () async {
-              Navigator.pop(context);
-              await Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => LoginView(),
-                  ));
-            },
-          ),
-          ListTile(
-            title: Text("Zarejestruj się"),
-            leading: Icon(Icons.edit),
-            onTap: () async => await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RegisterView(),
-              ),
-            ),
-          ),
+          Divider(),
+          LangTile(),
+          ThemeTile()
         ],
       ),
     );

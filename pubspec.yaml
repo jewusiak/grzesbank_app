@@ -1,5 +1,5 @@
 name: grzesbank_app
-description: Grzesbank app
+description: Grzesbank24
 publish_to: 'none'
 
 
@@ -15,15 +15,25 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: 
-
+  google_maps_flutter: 
+  location:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
 
 
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/gb_logo.png"
+  min_sdk_android: 20 # android min sdk min:16, default 21
+  web:
+    generate: true
 
 
 flutter:
@@ -38,11 +48,14 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - resources/card_template.jpg
+    - assets/card_template.jpeg
+    - assets/translations.json
+    - assets/gb_logo.png
+    - assets/loc_pin.png
   fonts:
     - family: OCRA
       fonts:
-        - asset: resources/OCR-A.ttf
+        - asset: assets/OCR-A.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
