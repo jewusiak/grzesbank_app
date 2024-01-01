@@ -1,5 +1,6 @@
 services:
   front:
+    image: gb24-app
     build:
       dockerfile: ./Dockerfile
       args:
@@ -15,6 +16,7 @@ services:
       - extr
   
   back:
+    image: gb24-api
     build: ../grzesbank-api/
     container_name: gb24-api
     volumes:
