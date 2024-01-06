@@ -106,7 +106,6 @@ class _LoginViewState extends State<LoginView> {
           emailInputController.text,
           password);
       Navigator.pop(context);
-      print(result);
       if (result != null) {
         Provider.of<AppState>(context, listen: false).setStateLogin(result);
         Navigator.pop(context);
