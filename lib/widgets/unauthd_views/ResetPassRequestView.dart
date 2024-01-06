@@ -19,7 +19,7 @@ class ResetPassRequestView extends StatelessWidget {
       title: Text(Tprovider.get('forgot_password')),
       body: Center(
         child: Container(
-          width: 500,
+          width: 350,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
