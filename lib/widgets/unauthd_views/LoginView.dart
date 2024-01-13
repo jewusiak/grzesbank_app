@@ -21,7 +21,7 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController emailInputController = TextEditingController();
   LoginState loginState = LoginState.AWAITING_EMAIL;
   PasswordCombinationResponse? passwordCombinationResponse;
-  List<TextEditingController> passwordControllers = genTecs();
+  List<TextEditingController> passwordControllers=[];
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,8 @@ class _LoginViewState extends State<LoginView> {
                       if (!_formKey.currentState!.validate()) return;
                       await loginButtonPressed();
                     },
-                    decoration:
-                        InputDecoration(hintText: Tprovider.get('email_address')),
+                    decoration: InputDecoration(
+                        hintText: Tprovider.get('email_address')),
                     enabled: loginState == LoginState.AWAITING_EMAIL,
                     validator: (value) => RegexMatchers.matchEmail(value),
                   ),
@@ -74,11 +74,19 @@ class _LoginViewState extends State<LoginView> {
                   },
                   child: Text(Tprovider.get('drawer_login')),
                 ),
-                SizedBox(height: 20,),
-                TextButton(onPressed: ()async {
-                  Navigator.pop(context);
-                  await Navigator.push(NavigationContext.mainNavKey.currentContext!, MaterialPageRoute(builder: (context) => ResetPassRequestView(),));
-                }, child: Text("${Tprovider.get('forgot_password')} >>"))
+                SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await Navigator.push(
+                          NavigationContext.mainNavKey.currentContext!,
+                          MaterialPageRoute(
+                            builder: (context) => ResetPassRequestView(),
+                          ));
+                    },
+                    child: Text("${Tprovider.get('forgot_password')} >>"))
               ],
             ),
           ),
@@ -114,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
       } else {
         setState(() {
           loginState = LoginState.AWAITING_EMAIL;
-          passwordControllers = genTecs();
+          passwordControllers = genTecs(0);
           emailInputController.clear();
         });
         ErrorDialog.show(context, Tprovider.get('invalidcred_err'));
@@ -126,6 +134,7 @@ class _LoginViewState extends State<LoginView> {
     if (loginState == LoginState.AWAITING_EMAIL ||
         passwordCombinationResponse == null) return [];
     var indices = passwordCombinationResponse!.indices!;
+    passwordControllers = genTecs(indices.length);
     var widgets = <Widget>[];
     int tecId = 0;
     for (int i = 0; i <= indices.last; i++) {
@@ -151,14 +160,10 @@ class _LoginViewState extends State<LoginView> {
     return widgets;
   }
 
-  static List<TextEditingController> genTecs() {
-    return [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController()
-    ];
+  static List<TextEditingController> genTecs(int n) {
+    var l = <TextEditingController>[];
+    for (int i = 0; i < n; i++) l.add(TextEditingController());
+    return l;
   }
 }
 
