@@ -42,7 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                //autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Container(
                   width: 500,
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
@@ -54,6 +54,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               controller: _name,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('firstname')),
@@ -67,6 +68,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('lastname')),
                               controller: _surname,
@@ -84,6 +86,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('email_address')),
                               keyboardType: TextInputType.emailAddress,
@@ -97,6 +100,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('confirm_email')),
                               keyboardType: TextInputType.emailAddress,
@@ -116,6 +120,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('password')),
                               obscureText: true,
@@ -127,6 +132,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 8,
                                 Tprovider.get('field_cannotempty'),
                               ),
+                              inputFormatters: [LengthLimitingTextInputFormatter(20)],
                             ),
                           ),
                           SizedBox(
@@ -134,6 +140,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('confirm_password')),
                               obscureText: true,
@@ -141,6 +148,7 @@ class _RegisterViewState extends State<RegisterView> {
                               validator: (value) => value == _password1.text
                                   ? null
                                   : Tprovider.get('pass_mismatch'),
+                              inputFormatters: [LengthLimitingTextInputFormatter(20)],
                             ),
                           ),
                         ],
@@ -153,6 +161,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('pesel')),
                               inputFormatters: [
@@ -173,6 +182,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('idnumber')),
                               controller: _idNumber,
@@ -189,6 +199,7 @@ class _RegisterViewState extends State<RegisterView> {
                         height: 15,
                       ),
                       TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                             labelText: Tprovider.get('street_number')),
                         controller: _street,
@@ -203,6 +214,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('zip_code')),
                               controller: _zipCode,
@@ -219,6 +231,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
                                   labelText: Tprovider.get('city')),
                               controller: _city,
@@ -232,6 +245,7 @@ class _RegisterViewState extends State<RegisterView> {
                         height: 15,
                       ),
                       TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                             labelText: Tprovider.get('initial_acc_balance')),
                         controller: _startingBalance,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:grzesbank_app/api/ApiService.dart';
 import 'package:grzesbank_app/state/AppState.dart';
 import 'package:grzesbank_app/util_views/ErrorDialog.dart';
@@ -57,6 +58,7 @@ class _UnauthdPassChangeViewState extends State<UnauthdPassChangeView> {
                               8,
                               Tprovider.get('field_cannotempty')),
                           controller: _pass1,
+                          inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         ),
                         TextFormField(
                           decoration: InputDecoration(

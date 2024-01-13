@@ -33,52 +33,54 @@ class _LoginViewState extends State<LoginView> {
             "${Tprovider.get('drawer_login')} ${Tprovider.get('to')} Grzesbank24"),
       ),
       body: Center(
-        child: Container(
-          width: 350,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: TextFormField(
-                  controller: emailInputController,
-                  onFieldSubmitted: (value) async {
+        child: SingleChildScrollView(
+          child: Container(
+            width: 350,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: TextFormField(
+                    controller: emailInputController,
+                    onFieldSubmitted: (value) async {
+                      if (!_formKey.currentState!.validate()) return;
+                      await loginButtonPressed();
+                    },
+                    decoration:
+                        InputDecoration(hintText: Tprovider.get('email_address')),
+                    enabled: loginState == LoginState.AWAITING_EMAIL,
+                    validator: (value) => RegexMatchers.matchEmail(value),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                (loginState != LoginState.AWAITING_EMAIL
+                    ? Text(Tprovider.get('login_pass'))
+                    : Container()),
+                SizedBox(
+                  height: loginState != LoginState.AWAITING_EMAIL ? 12 : 0,
+                ),
+                Wrap(children: generatePasswordBoxes()),
+                SizedBox(
+                  height: loginState != LoginState.AWAITING_EMAIL ? 20 : 0,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
                     if (!_formKey.currentState!.validate()) return;
                     await loginButtonPressed();
                   },
-                  decoration:
-                      InputDecoration(hintText: Tprovider.get('email_address')),
-                  enabled: loginState == LoginState.AWAITING_EMAIL,
-                  validator: (value) => RegexMatchers.matchEmail(value),
+                  child: Text(Tprovider.get('drawer_login')),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              (loginState != LoginState.AWAITING_EMAIL
-                  ? Text(Tprovider.get('login_pass'))
-                  : Container()),
-              SizedBox(
-                height: loginState != LoginState.AWAITING_EMAIL ? 12 : 0,
-              ),
-              Wrap(children: generatePasswordBoxes()),
-              SizedBox(
-                height: loginState != LoginState.AWAITING_EMAIL ? 20 : 0,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (!_formKey.currentState!.validate()) return;
-                  await loginButtonPressed();
-                },
-                child: Text(Tprovider.get('drawer_login')),
-              ),
-              SizedBox(height: 20,),
-              TextButton(onPressed: ()async {
-                Navigator.pop(context);
-                await Navigator.push(NavigationContext.mainNavKey.currentContext!, MaterialPageRoute(builder: (context) => ResetPassRequestView(),));
-              }, child: Text("${Tprovider.get('forgot_password')} >>"))
-            ],
+                SizedBox(height: 20,),
+                TextButton(onPressed: ()async {
+                  Navigator.pop(context);
+                  await Navigator.push(NavigationContext.mainNavKey.currentContext!, MaterialPageRoute(builder: (context) => ResetPassRequestView(),));
+                }, child: Text("${Tprovider.get('forgot_password')} >>"))
+              ],
+            ),
           ),
         ),
       ),
